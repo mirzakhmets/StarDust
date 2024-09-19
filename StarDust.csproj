@@ -16,7 +16,7 @@
     <NoStdLib>False</NoStdLib>
     <TreatWarningsAsErrors>False</TreatWarningsAsErrors>
     <IntermediateOutputPath>obj\$(Configuration)\</IntermediateOutputPath>
-    <ApplicationIcon>..\..\Personal\Logotypes\Icons\Converted\icon-18.ico</ApplicationIcon>
+    <ApplicationIcon>icon.ico</ApplicationIcon>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -77,6 +77,30 @@
     <Compile Include="Cells\CellPlate.cs" />
     <Compile Include="Cells\CellSpace.cs" />
     <Compile Include="AssemblyInfo.cs" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Content" />
+    <Folder Include="Content\Cell" />
+    <Folder Include="Content\Unit" />
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Content\Arial.xnb" />
+    <None Include="Content\Cell\Dust1.xnb" />
+    <None Include="Content\Cell\Dust2.xnb" />
+    <None Include="Content\Cell\Dust3.xnb" />
+    <None Include="Content\Cell\Ferrum.xnb" />
+    <None Include="Content\Cell\Plate.xnb" />
+    <None Include="Content\Cell\Space1.xnb" />
+    <None Include="Content\Cell\Space2.xnb" />
+    <None Include="Content\Cell\Space3.xnb" />
+    <None Include="Content\Unit\Artifact.xnb" />
+    <None Include="Content\Unit\Autogun.xnb" />
+    <None Include="Content\Unit\Bomb.xnb" />
+    <None Include="Content\Unit\Gate.xnb" />
+    <None Include="Content\Unit\Selected.xnb" />
+    <None Include="Content\Unit\Shuttle.xnb" />
+    <None Include="Content\Unit\Soldier.xnb" />
+    <None Include="Content\Unit\Worker.xnb" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

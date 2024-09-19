@@ -4,6 +4,7 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StarDust.Cells;
 using StarDust.Units;
+using Microsoft.Win32;
 
 namespace StarDust
 {
@@ -28,6 +29,43 @@ namespace StarDust
     {
       this.IsMouseVisible = true;
       base.Initialize();
+      
+      if (!IsRegistered()) {
+    		CheckRuns();
+      }
+    }
+    
+  	public void CheckRuns() {
+			RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\OVG-Developers", true);
+			
+			int runs = -1;
+			
+			if (key != null && key.GetValue("Runs") != null) {
+				runs = (int) key.GetValue("Runs");
+			} else {
+				key = Registry.CurrentUser.CreateSubKey("Software\\OVG-Developers");
+			}
+			
+			runs = runs + 1;
+			
+			key.SetValue("Runs", runs);
+			
+			if (runs > 10) {
+				MessageBox.Show("Number of runs expired.",
+							"Please register the application (visit https://ovg-developers.mystrikingly.com/ for purchase).", null);
+				
+				this.Exit();
+			}
+	}
+	
+	public bool IsRegistered() {
+			RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\OVG-Developers");
+			
+			if (key != null && key.GetValue("Registered") != null) {
+				return true;
+			}
+			
+		return false;
     }
 
     protected override void LoadContent()
