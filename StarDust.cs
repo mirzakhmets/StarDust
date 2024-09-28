@@ -4,7 +4,10 @@ using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
 using StarDust.Cells;
 using StarDust.Units;
+
+#if TRIAL
 using Microsoft.Win32;
+#endif
 
 namespace StarDust
 {
@@ -30,11 +33,14 @@ namespace StarDust
       this.IsMouseVisible = true;
       base.Initialize();
       
+      #if TRIAL
       if (!IsRegistered()) {
     		CheckRuns();
       }
+      #endif
     }
     
+    #if TRIAL
   	public void CheckRuns() {
 			RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\OVG-Developers", true);
 			
@@ -67,6 +73,7 @@ namespace StarDust
 			
 		return false;
     }
+    #endif
 
     protected override void LoadContent()
     {
