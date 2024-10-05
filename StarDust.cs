@@ -1,4 +1,6 @@
 ﻿
+#define TRIAL
+
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -21,27 +23,29 @@ namespace StarDust
     public Player User;
 
     public Player Computer;
+    
+    public bool CanRun = false;
 
     public StarDust()
     {
       this.graphics = new GraphicsDeviceManager((Game) this);
       this.Content.RootDirectory = "Content";
+      
+      this.CanRun = this.IsRegistered();
+      
+      if (!this.CanRun) {
+      	this.CanRun = this.CheckRuns();
+      }
     }
 
     protected override void Initialize()
     {
       this.IsMouseVisible = true;
       base.Initialize();
-      
-      #if TRIAL
-      if (!IsRegistered()) {
-    		CheckRuns();
-      }
-      #endif
     }
     
     #if TRIAL
-  	public void CheckRuns() {
+  	public bool CheckRuns() {
 			RegistryKey key = Registry.CurrentUser.OpenSubKey("Software\\OVG-Developers", true);
 			
 			int runs = -1;
@@ -56,12 +60,11 @@ namespace StarDust
 			
 			key.SetValue("Runs", runs);
 			
-			if (runs > 10) {
-				MessageBox.Show("Number of runs expired.",
-							"Please register the application (visit https://ovg-developers.mystrikingly.com/ for purchase).", null);
-				
-				this.Exit();
+			if (runs > 30) {				
+				return false;
 			}
+			
+			return true;
 	}
 	
 	public bool IsRegistered() {
@@ -163,6 +166,17 @@ namespace StarDust
       this.GraphicsDevice.Clear(Color.Black);
       this.spriteBatch.Begin();
       SpriteFont spriteFont = this.Content.Load<SpriteFont>("Arial");
+      
+      #if TRIAL
+      if (!CanRun) {
+  		this.spriteBatch.DrawString(spriteFont, "Please register the application (visit https://ovg-developers.mystrikingly.com/ for purchase).", new Vector2(100f, 100f), Color.White);
+  		this.spriteBatch.End();
+  		
+	    base.Draw(gameTime);
+  		return;
+      }
+      #endif
+      
       if (this.User.Lost())
         this.spriteBatch.DrawString(spriteFont, "YOU LOST", new Vector2(100f, 100f), Color.White);
       else if (this.Computer.Lost())
@@ -170,6 +184,7 @@ namespace StarDust
       else
         this.Map.Draw();
       this.spriteBatch.End();
+	  
       base.Draw(gameTime);
     }
   }
